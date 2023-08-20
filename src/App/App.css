@@ -3,8 +3,12 @@
   background-color: #383c44;
   min-height: 100vh;
   padding: 20px;
+  color:#0ff;
 }
 
-.panel {
-  min-height: 100px;
+.dndPanel {
+  height: 200px;
+  width: 60vh;
+  border-style: dotted;
+  margin: auto;
 }

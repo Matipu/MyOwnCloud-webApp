@@ -2,4 +2,7 @@
 .Panel {
   background-color: #fff;
   padding: 3px;
+  color: #000;
+  min-height: 200px;
+  margin: 10px;
 }
