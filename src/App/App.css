@@ -1,14 +1,16 @@
 
 .App {
-  background-color: #383c44;
+  background-color: #f0f0f0;
   min-height: 100vh;
   padding: 20px;
-  color:#0ff;
+  color:rgb(80, 80, 80);
 }
 
 .dndPanel {
   height: 200px;
-  width: 60vh;
+  width: 94vw;
   border-style: dotted;
-  margin: auto;
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
+

@@ -3,6 +3,23 @@
   background-color: #fff;
   padding: 3px;
   color: #000;
-  min-height: 200px;
+  height: 200px;
   margin: 10px;
+  border-radius: 15px;
+  -webkit-box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
+  box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
+}
+
+img {
+  max-height: 85%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto 
+}
+
+.Panel p {
+  margin: 2px;
+  font-family: "Arial";
+  text-align: center;
 }
