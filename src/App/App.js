@@ -29,13 +29,12 @@ class App extends React.Component {
   size = 5;
 
   handleDrop = (documents) => {
-
-    new FileComunication().createNewFile()
+    new FileComunication().createFile(documents[0])
 
     let fileList =  [...this.state.documents]
     for (var i = 0; i < documents.length; i++) {
       if (!documents[i].name) return
-      fileList.push(documents[i].name)
+        fileList.push(documents[i].name)
     }
 
     this.setState({ 
@@ -62,7 +61,6 @@ class App extends React.Component {
   }
 
   renderPanel(document) {
-    console.log(document)
     if(document != null) {
       return (<Panel> document </Panel>)
     };
