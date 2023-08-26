@@ -21,8 +21,14 @@ class FileComunication {
 
     async getAllFiles(path) {
         var url = "http://localhost:8081/file?path=" + encodeURIComponent(path);
-        console.log(url)
         return await (await fetch( url)).json()
+    }
+
+    async getFileContent(id) {
+        var url = "http://localhost:8081/file/content?id=" + encodeURIComponent(id);
+        var response = await (await fetch( url)).json();
+        console.log(response)
+        return response.content
     }
 
     async createFolder(name, path) {

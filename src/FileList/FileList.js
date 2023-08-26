@@ -42,7 +42,12 @@ export default class FileList extends Component {
   }
 
   handleDrop = async (documents, path) => {
-    var file = documents[0];
+    for( var i = 0; i < documents.length; i++){ 
+      this.createFile(documents[i], path)
+    }
+  }
+
+  createFile = async (file, path) => {
     var icon = await new IconCreator().createIcon(file);
     this.addFile(await new FileComunication().createFile(file, icon, path))
   }
@@ -64,17 +69,40 @@ export default class FileList extends Component {
     })
   }
 
+  getPreviousFile = async (fileId) => {
+    let fileList =  this.state.documents
+    var actualPosition = this.findFilePositionInArray(fileList, fileId)
+    for( var i = actualPosition-1; i >= 0; i--){ 
+      if ( fileList[i].contentType !== "folder") { 
+        return fileList[i]
+      }
+    }
+  }
+
+  getNextFile= async (fileId) => {
+    let fileList =  this.state.documents
+    var actualPosition = this.findFilePositionInArray(fileList, fileId)
+    for( var i = actualPosition+1; i < fileList.length; i++){ 
+      if ( fileList[i].contentType !== "folder") { 
+        return fileList[i]
+      }
+    }
+  }
+
+  findFilePositionInArray(fileList, fileId) {
+    for( var i = 0; i < fileList.length; i++){ 
+      if ( fileList[i].id === fileId) { 
+          return i
+      }
+    }
+  }
+
   deleteFile = async(fileId) => {
     console.log(fileId)
     var response = await (new FileComunication()).deleteFile(fileId)
     if(response.ok) {
       let fileList =  [...this.state.documents]
-      for( var i = 0; i < fileList.length; i++){ 
-        if ( fileList[i].id === fileId) { 
-            fileList.splice(i, 1); 
-            break;
-        }
-    }
+      fileList.splice(this.findFilePositionInArray(fileList, fileId), 1);
       await this.setState({ 
         documents: fileList,
         splittedDocuments: chunkArray(fileList, this.size)

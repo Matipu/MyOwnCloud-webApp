@@ -50,9 +50,7 @@ class DragAndDrop extends Component {
   }
   render() {
     return (
-      <div
-        style={{display: 'inline-block', position: 'relative'}} ref={this.dropRef}>
-
+      <div ref={this.dropRef}>
         {this.props.children}
       </div>
     )

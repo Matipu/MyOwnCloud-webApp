@@ -1,42 +1,33 @@
-
 .Panel {
   background-color: #fff;
-  padding: 3px;
   color: #000;
   height: 200px;
   margin: 10px;
-  border-radius: 15px;
+  border-radius: 10px;
   -webkit-box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
   -moz-box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
   box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
 
   overflow: hidden;
-white-space: nowrap; /* Don't forget this one */
-text-overflow: ellipsis;
-padding:5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .imageContainer img {
-
-  max-height: 85%;
+  max-height: 100%;
   max-width: 100%;
+  margin: auto auto;
   display: block;
-  margin-left: auto;
-  margin-right: auto 
 }
 
 .Panel p {
   font-family: "Arial";
   text-align: center;
-  
 }
-.imageContainer {
-
+.imageContainer {    display:flex;
+  flex-direction: column;
   height: 85%;
   width: 100%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto 
 }
 .fileName {
   position: relative;
