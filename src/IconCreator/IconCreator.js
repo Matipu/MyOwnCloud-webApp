@@ -3,6 +3,9 @@ import Compress from 'compress.js'
 class IconCreator {
 
     async createIcon(file) {
+        if(!file.type.startsWith('image')){
+            return null;
+        }
         const compress = new Compress()
         const resizedImage = await compress.compress([file], {
             size: 2, 
