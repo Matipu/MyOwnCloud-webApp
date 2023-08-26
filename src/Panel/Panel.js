@@ -1,26 +1,49 @@
 import "./Panel.css";
 import React, { Component } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+
+
 export default class Panel extends Component {
 
   constructor(props) {
     super(props);
     this.id = this.props.document.id;
+    this.state = {
+      editText: false,
+      text: this.props.document.name
+    };
   }
 
   onClick = async () => {
-    console.log(this.props.document)
     this.props.clickOnPanel(this.props.document);
   };
 
+  onTextClick = async (e) => {
+    e.stopPropagation();
+    this.setState({editText:true});
+  };
+
   changeName = async () => {
-    
+    this.setState({editText:true});
   };
 
   delete = async () => {
-    console.log(this.props.document)
     this.props.delete(this.props.document.id);
   };
+
+  _handleKeyDown = async (e) => {
+    console.log(e)
+    if (e.key === 'Enter') {
+      this.setState({editText:false});
+      await this.props.changeName(this.props.document.id, this.state.text);
+    }
+  }
+
+  
+  handleChange = async (event) => {
+    this.setState({text:event.target.value});
+  }
+  
 
   render() {
     var content;
@@ -51,8 +74,12 @@ export default class Panel extends Component {
           <div className="imageContainer">
             <img src={image} alt="loading" />
           </div>
-          <div className="fileName">
-            <p>{this.props.document.name}</p>
+          <div className="fileName" onClick={this.onTextClick}>
+            {this.state.editText?
+              <input class="center-block" type="text" value={this.state.text} onKeyDown={this._handleKeyDown} onChange={this.handleChange}/>
+            :
+              <p>{this.props.document.name}</p>
+            }
           </div>
         
       </div>

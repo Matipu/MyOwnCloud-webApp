@@ -8,10 +8,10 @@ class IconCreator {
         }
         const compress = new Compress()
         const resizedImage = await compress.compress([file], {
-            size: 2, 
+            size: 1, 
             quality: 1, 
-            maxWidth: 300, 
-            maxHeight: 300, 
+            maxWidth: 200, 
+            maxHeight: 200, 
             resize: true 
         })
         const img = resizedImage[0];

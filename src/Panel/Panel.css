@@ -2,11 +2,11 @@
   background-color: #fff;
   color: #000;
   height: 200px;
-  margin: 10px;
-  border-radius: 10px;
-  -webkit-box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
-  -moz-box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
-  box-shadow: 10px 9px 33px -18px rgba(66, 68, 90, 1);
+  margin-top: 15px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 23px -9px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 0px 0px 23px -9px rgba(66, 68, 90, 1);
+  box-shadow: 0px 0px 23px -9px rgba(66, 68, 90, 1);
 
   overflow: hidden;
   white-space: nowrap;
@@ -18,19 +18,24 @@
   max-width: 100%;
   margin: auto auto;
   display: block;
+
 }
 
 .Panel p {
   font-family: "Arial";
   text-align: center;
 }
-.imageContainer {    display:flex;
-  flex-direction: column;
-  height: 85%;
-  width: 100%;
+.imageContainer {    
+  display:flex;
+  height: 90%;
 }
 .fileName {
   position: relative;
-  bottom: 0px;
-  margin: 5px;
+  bottom: 3px;
+  margin-bottom: 5px;
+}
+.center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }

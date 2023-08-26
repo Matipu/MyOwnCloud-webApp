@@ -1,8 +1,9 @@
 .filePreview {
+  z-index: 900;
   content: '\A';
-  position: absolute;
-  width: 100%; 
-  height:100%;
+  position: fixed;
+  width: 100vw; 
+  height: 100vh;
   top:0; 
   left:0;
   background:rgba(0,0,0,0.7);
@@ -10,11 +11,17 @@
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
+
+  backdrop-filter: blur(2px);
+}
+.filePreviewImageContainer img {  
+	max-width: 90vw; 
+	max-height: 85vh;
 }
 
 .filePreviewImageContainer {
+
   z-index: 900;
-  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -23,12 +30,49 @@
 }
 
 .filePreviewControllerPanel {
-  z-index: 900;
   margin: 0;
   position: absolute;
-  bottom: 6%;
+  bottom: 10px;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   color:white
+}
+
+.previousFileArrow {
+  position: fixed;
+  left:0px;
+  top:0px; 
+  width: 8vw; 
+  background:rgba(192, 192, 192, 0.2);
+  height: 100vh;
+  color: white;
+  padding: 70px 0; text-align: center;
+}
+
+.nextFileArrow{
+  position: fixed;
+  right:0;
+  top:0; 
+  width: 8vw; 
+  background:rgba(192, 192, 192, 0.2);
+  height: 100vh;
+  color: white;
+}
+
+.previousFileArrow p {
+  font-size: xx-large;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.nextFileArrow p {
+  font-size: xx-large;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

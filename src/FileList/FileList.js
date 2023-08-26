@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Panel from './../Panel/Panel';
 import FileComunication from './../FileComunication/FileComunication'
 import IconCreator from './../IconCreator/IconCreator'
+import {isMobile} from 'react-device-detect';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import Row from 'react-bootstrap/Row'
@@ -28,7 +29,19 @@ function chunkArray(myArray, chunk_size){
 
 export default class FileList extends Component {
   
-  size = 6;
+  constructor() {
+    super()
+    if(isMobile) {
+      this.size = 2
+    } else {
+      this.size = 6;
+    }
+    this.state = {
+      documents: [],
+      splittedDocuments: []
+    };
+    this.loadFiles("/")
+  }
 
   addFile = async(file) => {
     let fileList =  [...this.state.documents]
@@ -58,9 +71,14 @@ export default class FileList extends Component {
 
   changePath = async (path) => {
     this.loadFiles(path)
+    this.forceUpdate()
   }
 
   loadFiles = async(path) => {
+    this.setState({
+      documents: [],
+      splittedDocuments: []
+    });
     var response = await (new FileComunication().getAllFiles(path))
 
     this.setState({ 
@@ -111,18 +129,17 @@ export default class FileList extends Component {
     this.forceUpdate()
   } 
 
-  constructor() {
-    super()
-    this.state = {
-      documents: [],
-      splittedDocuments: []
-    };
-    this.loadFiles("/")
-  }
+  changeFileName = async(fileId, text) => {
+    let fileList =  this.state.documents
+    var actualPosition = this.findFilePositionInArray(fileList, fileId)
+    fileList[actualPosition].name = text;
+    await (new FileComunication()).changeName(fileId, text)
+    this.forceUpdate()
+  } 
 
   renderPanel(document) {
     if(document != null) {
-        return <Panel document={document} clickOnPanel={this.props.clickOnFolder} delete={this.deleteFile}/>
+        return <Panel document={document} changeName={this.changeFileName} clickOnPanel={this.props.clickOnFolder} delete={this.deleteFile}/>
     };
   }
   
@@ -134,7 +151,7 @@ export default class FileList extends Component {
           {this.state.splittedDocuments.map(documents => (
             <Row>
               {documents.map(document => (
-                <Col xs={2}><div className="panel">
+                <Col className={isMobile?"px-md-1":"px-md-3"} xs={isMobile?6:2}><div className="panel">
                   {this.renderPanel(document)}
                 </div></Col>
               ))}

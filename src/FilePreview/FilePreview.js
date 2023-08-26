@@ -42,15 +42,16 @@ export default class FilePreview extends Component {
 
   render() {
     return (
-      <div className="filePreview" onClick={this.props.closeFilePreview}>\
+      <div className="filePreview" onClick={this.props.closeFilePreview}>
+          <div className="previousFileArrow" onClick={this.previousFile}><p>&#60;</p></div> 
+          <div className="nextFileArrow" onClick={this.nextFile}><p>&#62;</p></div>
+
           <div className="filePreviewImageContainer">
             { this.state.image != null ? <img src={this.state.image} alt="loading" /> : null }
           </div>
           <div className="filePreviewControllerPanel">
-            
-          <span onClick={this.previousFile}>&#60;&#60;&#60; </span> 
+          
           <span>{this.file.name}</span> 
-          <span onClick={this.nextFile}>&#62;&#62;&#62;</span>
           </div>
       </div>
     );
