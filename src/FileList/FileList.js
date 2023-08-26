@@ -62,6 +62,25 @@ export default class FileList extends Component {
       documents: response,
       splittedDocuments: chunkArray(response, this.size)
     })
+  }
+
+  deleteFile = async(fileId) => {
+    console.log(fileId)
+    var response = await (new FileComunication()).deleteFile(fileId)
+    if(response.ok) {
+      let fileList =  [...this.state.documents]
+      for( var i = 0; i < fileList.length; i++){ 
+        if ( fileList[i].id === fileId) { 
+            fileList.splice(i, 1); 
+            break;
+        }
+    }
+      await this.setState({ 
+        documents: fileList,
+        splittedDocuments: chunkArray(fileList, this.size)
+      })
+    }
+    this.forceUpdate()
   } 
 
   constructor() {
@@ -75,13 +94,14 @@ export default class FileList extends Component {
 
   renderPanel(document) {
     if(document != null) {
-      return (<Panel document={document} clickOnPanel={this.props.clickOnFolder}/>)
+        return <Panel document={document} clickOnPanel={this.props.clickOnFolder} delete={this.deleteFile}/>
     };
   }
-
+  
   render() {
       return (
         <div className="FileList">
+
           <Container fluid>
           {this.state.splittedDocuments.map(documents => (
             <Row>

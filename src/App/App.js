@@ -47,24 +47,16 @@ export default class App extends Component {
         <div className="dndPanel">
         </div>
       </DragAndDrop>
-      <div>
 
-      <ContextMenu id="same_unique_identifier">
-        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-          Zmień nazwę
-        </MenuItem>
-        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-          Usuń
-        </MenuItem>
-        <MenuItem divider />
+      <ContextMenu id="fileListContextMenuIdentifier">
         <MenuItem data={{foo: 'bar'}} onClick={this.handleNewFolder}>
           Nowy folder
         </MenuItem>
       </ContextMenu>
 
-      </div>
-      <ContextMenuTrigger id="same_unique_identifier">
-        <FileList ref={this.fileListRef} id="same_unique_identifier" clickOnFolder={this.handleFileClick}/>
+      
+      <ContextMenuTrigger id="fileListContextMenuIdentifier">
+        <FileList ref={this.fileListRef} clickOnFolder={this.handleFileClick}/>
       </ContextMenuTrigger>
     </div>
     );

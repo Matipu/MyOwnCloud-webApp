@@ -26,14 +26,18 @@ class FileComunication {
     }
 
     async createFolder(name, path) {
-        return await this.postData('http://localhost:8081/folder', { name: name, path: path })
+        var response = await this.sendData('POST', 'http://localhost:8081/folder', { name: name, path: path })
+        return (await response.json()).file;
     }
 
+    async deleteFile(fileId) {
+        return await this.sendData('DELETE', 'http://localhost:8081/file?id=' + encodeURIComponent(fileId), {})
+    }
 
-    async postData(url = '', data = {}) {
+    async sendData(method, url = '', data = {}) {
         // Default options are marked with *
         const response = await fetch(url, {
-          method: 'POST',
+          method: method,
           mode: 'cors',
           cache: 'no-cache',
           credentials: 'same-origin',
@@ -44,7 +48,7 @@ class FileComunication {
           referrerPolicy: 'no-referrer',
           body: JSON.stringify(data)
         });
-        return (await response.json()).file;
+        return response;
       }
 }
 
