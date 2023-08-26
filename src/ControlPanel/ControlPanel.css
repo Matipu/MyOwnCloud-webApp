@@ -1,0 +1,21 @@
+.ControlPanel {
+    position: fixed;
+    height: 50px;
+    width: 100vw;
+    top:0px;
+    left: 0px;
+    background-color: white;
+    z-index: 999;
+    float: left;
+}
+
+.pathPart{ 
+    float: left;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.logo{ 
+    padding-top: 5px;
+    float: left;
+}

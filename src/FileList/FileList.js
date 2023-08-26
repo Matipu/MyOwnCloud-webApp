@@ -30,19 +30,33 @@ export default class FileList extends Component {
   
   size = 6;
 
-  handleDrop = async (documents) => {
-    var file = documents[0];
-    var icon = await new IconCreator().createIcon(file);
-    await new FileComunication().createFile(file, icon)
+  addFile = async(file) => {
     let fileList =  [...this.state.documents]
-    for (var i = 0; i < documents.length; i++) {
-      fileList.push(file)
-    }
-    window.location.reload();
+    fileList.push(file)
+    await this.setState({ 
+      documents: fileList,
+      splittedDocuments: chunkArray(fileList, this.size)
+    })
+
+    this.forceUpdate()
   }
 
-  loadFiles = async() => {
-    var response = await (new FileComunication().getAllFiles())
+  handleDrop = async (documents, path) => {
+    var file = documents[0];
+    var icon = await new IconCreator().createIcon(file);
+    this.addFile(await new FileComunication().createFile(file, icon, path))
+  }
+
+  createFolder = async (name, path) => {
+    this.addFile(await new FileComunication().createFolder(name, path))
+  }
+
+  changePath = async (path) => {
+    this.loadFiles(path)
+  }
+
+  loadFiles = async(path) => {
+    var response = await (new FileComunication().getAllFiles(path))
 
     this.setState({ 
       documents: response,
@@ -52,17 +66,16 @@ export default class FileList extends Component {
 
   constructor() {
     super()
-    this.loadFiles()
-
     this.state = {
       documents: [],
       splittedDocuments: []
     };
+    this.loadFiles("/")
   }
 
   renderPanel(document) {
     if(document != null) {
-      return (<Panel document={document}/>)
+      return (<Panel document={document} clickOnPanel={this.props.clickOnFolder}/>)
     };
   }
 

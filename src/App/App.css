@@ -4,6 +4,7 @@
   min-height: 100vh;
   padding: 20px;
   color:rgb(80, 80, 80);
+  padding-top: 60px;
 }
 
 .dndPanel {
@@ -13,4 +14,3 @@
   margin-left: 2vw;
   margin-right: 2vw;
 }
-
