@@ -89,9 +89,7 @@ export default class Panel extends Component {
               <p>{this.props.document.name}</p>
             }
           </div>
-        
       </div>
-      
       </ContextMenuTrigger>
     );
   }

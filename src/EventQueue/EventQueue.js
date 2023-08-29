@@ -11,19 +11,19 @@ export default class EventQueue extends Component {
   }
 
   createFile = async(file, path) => {
-    return await this.runEvent("Dodawanie pliku :" + file.name, this.fileComunication.createFile, [file, path])
+    return await this.runEvent("Dodawanie pliku: " + file.name, this.fileComunication.createFile, [file, path])
   }
 
   changeName = async(fileId, name) => {
-    return await this.runEvent("Zmiana nazwy pliku na :" + name, this.fileComunication.changeName, [fileId, name])
+    return await this.runEvent("Zmiana nazwy pliku na: " + name, this.fileComunication.changeName, [fileId, name])
   }
 
   createFolder = async(name, path) => {
-    return await this.runEvent("Tworzenie folderu :" + name, this.fileComunication.createFolder, [name, path])
+    return await this.runEvent("Tworzenie folderu: " + name, this.fileComunication.createFolder, [name, path])
   }
 
   deleteFile = async(name, fileId) => {
-    return await this.runEvent("Usuwanie pliku :" + name, this.fileComunication.deleteFile, [fileId])
+    return await this.runEvent("Usuwanie pliku: " + name, this.fileComunication.deleteFile, [fileId])
   }
 
   runEvent = async(text, method, parameters) => {
@@ -35,7 +35,9 @@ export default class EventQueue extends Component {
     processes.push({id: this.processesCount, method:method, text:text, parameters:parameters});
     this.setState({processes: processes});
     this.setState({actualProcessingCount: this.state.actualProcessingCount+1});
+
     var result = await method(...parameters);
+
     var processesAfterEvent = [...this.state.processes];
     processesAfterEvent.splice(this.findFileProcessesInArray(processesAfterEvent, id), 1);
     this.setState({processes: processesAfterEvent});
@@ -72,9 +74,8 @@ export default class EventQueue extends Component {
       { this.state.actualProcessingCount > 0 ? 
         <div className="eventQueue">
           {this.state.processes.map(process => 
-            <div className="event" key={process.id}><hr></hr><p>{process.text} </p></div>
+            <div className="event" key={process.id}><p>{process.text} </p></div>
           )}
-      
         </div>
         :null
       }

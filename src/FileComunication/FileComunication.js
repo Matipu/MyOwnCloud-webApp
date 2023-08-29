@@ -20,15 +20,12 @@ export default class FileComunication {
 
   async createFile(file, path) {
     var icon = await new IconCreator().createIcon(file);
-
     var data = new FormData();
-
     data.append("path", path);
     data.append("file", file);
     if (icon !== null) {
       data.append("icon", icon);
     }
-
     const requestOptions = {
       "Content-Type": "multipart/form-data",
       method: "POST",
@@ -67,7 +64,6 @@ export default class FileComunication {
   }
 
   async deleteFile(fileId) {
-    console.log("delete" + fileId);
     return await sendData(
       "DELETE",
       "http://" + url + "/file?id=" + encodeURIComponent(fileId),
@@ -75,7 +71,6 @@ export default class FileComunication {
     );
   }
 }
-
 
 async function sendData(method, url = "", data = {}) {
   const response = await fetch(url, {

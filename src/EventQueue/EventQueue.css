@@ -9,3 +9,10 @@
   background:rgb(255, 255, 255);
   opacity: 1;
 }
+
+.event {
+  font-family: "Arial";
+  padding: 5px;
+  height: 70px;
+  p.solid {border-style: solid;}
+}
