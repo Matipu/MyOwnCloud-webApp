@@ -26,6 +26,11 @@ export default class EventQueue extends Component {
     return await this.runEvent("Usuwanie pliku: " + name, this.fileComunication.deleteFile, [fileId])
   }
 
+  downloadFile = async(name, fileId) => {
+
+    return await this.runEvent("Pobieranie pliku: " + name, this.fileComunication.downloadFile, [fileId])
+  }
+
   runEvent = async(text, method, parameters) => {
 
     await this.waitUntil(() => this.state.actualProcessingCount < 3)
@@ -57,7 +62,6 @@ export default class EventQueue extends Component {
   waitUntil = (condition) => {
     return new Promise((resolve) => {
         let interval = setInterval(() => {
-          console.log(this.actualProcessingCount)
             if (!condition()) {
                 return
             }

@@ -42,6 +42,9 @@ export default class FileList extends Component {
       var file = document.getAsFile();
       if (document.kind === "file") {
         const entry = await document.getAsFileSystemHandle();
+        if (entry === null || entry === undefined) {
+          return;
+        }
         if (entry.kind === "directory") {
           this.handleAddFolder(entry, path);
         } else {
@@ -56,7 +59,7 @@ export default class FileList extends Component {
     for await (const entry of folder.values()) {
       if (entry.kind === "directory") {
         this.handleAddFolder(entry, path + folderName + "/");
-      } else {
+      } else if (entry.kind === "file") {
         this.createFile(await entry.getFile(), path + folderName + "/");
       }
     }
@@ -75,6 +78,10 @@ export default class FileList extends Component {
       this.addFile(result);
     }
     return result;
+  };
+
+  downloadFile = async (name, id) => {
+    await this.eventQueueRef.current.downloadFile(name, id);
   };
 
   changePath = async (path) => {
@@ -145,19 +152,15 @@ export default class FileList extends Component {
   renderPanel(document) {
     if (document != null) {
       return (
-        <Col
-          key={document.id + "col"}
-          className={isMobile ? "px-md-1" : "px-md-3"}
-          xs={isMobile ? 6 : 2}
-        >
+        <Col key={document.id + "col"} className={isMobile ? "px-md-1" : "px-md-3"} xs={isMobile ? 6 : 2}>
           <div className="panel">
-            <Panel
-              key={document.id}
-              document={document}
-              changeName={this.changeFileName}
-              clickOnPanel={this.props.clickOnFolder}
-              delete={this.deleteFile}
-            />
+            <Panel 
+            key={document.id} 
+            document={document} 
+            changeName={this.changeFileName} 
+            clickOnPanel={this.props.clickOnFolder} 
+            delete={this.deleteFile}
+            downloadFile={this.downloadFile} />
           </div>
         </Col>
       );
@@ -168,9 +171,7 @@ export default class FileList extends Component {
     return (
       <div className="FileList">
         {this.state.splittedDocuments.map((documents, index) => (
-          <Row key={index}>
-            {documents.map((document) => this.renderPanel(document))}
-          </Row>
+          <Row key={index}>{documents.map((document) => this.renderPanel(document))}</Row>
         ))}
         <EventQueue ref={this.eventQueueRef}></EventQueue>
       </div>

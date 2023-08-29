@@ -57,6 +57,10 @@ export default class App extends Component {
     this.filePreviewRef.current.changeFile(await this.fileListRef.current.getNextFile(id));
   };
 
+  downloadFile = async (name, id) => {
+    this.fileListRef.current.downloadFile(name, id);
+  };
+
   render() {
     return (
       <DragAndDrop handleDrop={this.handleDrop}>
@@ -79,6 +83,7 @@ export default class App extends Component {
               file={this.state.previewFile}
               previousFile={this.setPreviousFileToPreview}
               nextFile={this.setnextFileToPreview}
+              downloadFile={this.downloadFile}
             />
           ) : null}
           <ContextMenuTrigger id="fileListContextMenuIdentifier">
