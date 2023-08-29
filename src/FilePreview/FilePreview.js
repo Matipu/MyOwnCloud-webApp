@@ -8,12 +8,16 @@ export default class FilePreview extends Component {
     super(props)
     this.file = props.file
     this.state = ({image:null})
-    this.loadImage()
+    this.loadImage(props.file)
   }
 
-  loadImage = async() => {
-    var content = await ((new FileComunication()).getFileContent(this.file.id))
-    var imagePreview = "data:" + this.file.contentType + ";base64," + content
+  loadImage = async(file) => {
+    var contentIcon = await ((new FileComunication()).getFileIcon(file.id))
+    var imagePreviewIcon = "data:" + file.contentType + ";base64," + contentIcon
+    this.setState({image:imagePreviewIcon})
+
+    var content = await ((new FileComunication()).getFileContent(file.id))
+    var imagePreview = "data:" + file.contentType + ";base64," + content
     this.setState({image:imagePreview})
   }
 
@@ -25,9 +29,7 @@ export default class FilePreview extends Component {
     this.file = file
     this.setState({image:null})
 
-    var content = await ((new FileComunication()).getFileContent(this.file.id))
-    var imagePreview = "data:" + this.file.contentType + ";base64," + content
-    this.setState({image:imagePreview})
+    this.loadImage(file)
   }
 
   nextFile = async(e) => {

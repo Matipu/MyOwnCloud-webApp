@@ -7,15 +7,20 @@
     background-color: white;
     z-index: 999;
     float: left;
+    overflow: clip;
 }
 
-.pathPart{ 
+.ControlPanel .path {
+
+}
+
+.ControlPanel .pathPart{ 
     float: left;
     padding-top: 10px;
     padding-left: 10px;
 }
 
-.logo{ 
+.ControlPanel .logo{ 
     padding-top: 5px;
     padding-left: 15px;
     float: left;

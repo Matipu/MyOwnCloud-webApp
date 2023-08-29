@@ -2,13 +2,12 @@ import './FileList.css';
 import React, { Component } from 'react'
 import Panel from './../Panel/Panel';
 import FileComunication from './../FileComunication/FileComunication'
-import IconCreator from './../IconCreator/IconCreator'
+import EventQueue from './../EventQueue/EventQueue'
 import {isMobile} from 'react-device-detect';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container'
 
 function chunkArray(myArray, chunk_size){
   var array = [...myArray]
@@ -40,18 +39,18 @@ export default class FileList extends Component {
       documents: [],
       splittedDocuments: []
     };
+    this.eventQueueRef = React.createRef();
+
     this.loadFiles("/")
   }
 
   addFile = async(file) => {
     let fileList =  [...this.state.documents]
     fileList.push(file)
-    await this.setState({ 
+    this.setState({ 
       documents: fileList,
       splittedDocuments: chunkArray(fileList, this.size)
     })
-
-    this.forceUpdate()
   }
 
   handleDrop = async (documents, path) => {
@@ -61,12 +60,13 @@ export default class FileList extends Component {
   }
 
   createFile = async (file, path) => {
-    var icon = await new IconCreator().createIcon(file);
-    this.addFile(await new FileComunication().createFile(file, icon, path))
+    var result = await this.eventQueueRef.current.createFile(file, path);
+    this.addFile(result)
   }
 
   createFolder = async (name, path) => {
-    this.addFile(await new FileComunication().createFolder(name, path))
+    var result = await this.eventQueueRef.current.createFolder(name, path);
+    this.addFile(result)
   }
 
   changePath = async (path) => {
@@ -75,10 +75,10 @@ export default class FileList extends Component {
   }
 
   loadFiles = async(path) => {
-    this.setState({
+    this.state = {
       documents: [],
       splittedDocuments: []
-    });
+    };
     var response = await (new FileComunication().getAllFiles(path))
 
     this.setState({ 
@@ -115,9 +115,8 @@ export default class FileList extends Component {
     }
   }
 
-  deleteFile = async(fileId) => {
-    console.log(fileId)
-    var response = await (new FileComunication()).deleteFile(fileId)
+  deleteFile = async(name, fileId) => {
+    var response = await this.eventQueueRef.current.deleteFile(name, fileId);
     if(response.ok) {
       let fileList =  [...this.state.documents]
       fileList.splice(this.findFilePositionInArray(fileList, fileId), 1);
@@ -133,31 +132,27 @@ export default class FileList extends Component {
     let fileList =  this.state.documents
     var actualPosition = this.findFilePositionInArray(fileList, fileId)
     fileList[actualPosition].name = text;
-    await (new FileComunication()).changeName(fileId, text)
+    await this.eventQueueRef.current.changeName(fileId, text);
     this.forceUpdate()
   } 
 
   renderPanel(document) {
     if(document != null) {
-        return <Panel document={document} changeName={this.changeFileName} clickOnPanel={this.props.clickOnFolder} delete={this.deleteFile}/>
+        return <Col key={document.id+"col"} className={isMobile?"px-md-1":"px-md-3"} xs={isMobile?6:2}><div className="panel">
+            <Panel  key ={document.id} document={document} changeName={this.changeFileName} clickOnPanel={this.props.clickOnFolder} delete={this.deleteFile}/>
+          </div></Col>
     };
   }
   
   render() {
       return (
         <div className="FileList">
-
-          <Container fluid>
-          {this.state.splittedDocuments.map(documents => (
-            <Row>
-              {documents.map(document => (
-                <Col className={isMobile?"px-md-1":"px-md-3"} xs={isMobile?6:2}><div className="panel">
-                  {this.renderPanel(document)}
-                </div></Col>
-              ))}
+          {this.state.splittedDocuments.map((documents, index) => (
+            <Row key={index}>
+              {documents.map(document => (this.renderPanel(document)))}
             </Row>
           ))}
-        </Container>
+          <EventQueue ref={this.eventQueueRef}></EventQueue>
         </div>
       )
   }

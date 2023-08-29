@@ -1,0 +1,11 @@
+.eventQueue {
+  z-index: 910;
+  content: '\A';
+  position: fixed;
+  width: 400px; 
+  height: 200px;
+  bottom:20px; 
+  right:20px;
+  background:rgb(255, 255, 255);
+  opacity: 1;
+}

@@ -15,12 +15,14 @@
   backdrop-filter: blur(2px);
 }
 .filePreviewImageContainer img {  
-	max-width: 90vw; 
-	max-height: 85vh;
+	width:  90vw; 
+	height: 85vh;
+  object-fit: contain;
 }
 
 .filePreviewImageContainer {
-
+	width:  90vw; 
+	height: 85vh;
   z-index: 900;
   position: absolute;
   top: 50%;

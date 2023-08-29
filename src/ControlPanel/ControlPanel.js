@@ -32,9 +32,9 @@ export default class ControlPanel extends Component {
           <h2>CLOUD</h2>
         </span>
 
-        <span>
+        <span className="path">
         {this.state.splittedPath.map((splittedPath, index) => (
-                <span className="pathPart" onClick={() => this.props.changePath(this.getLinkToPathPart(index))}>{splittedPath}</span>
+                <span key={index} className="pathPart" onClick={() => this.props.changePath(this.getLinkToPathPart(index))}>{splittedPath}</span>
         ))}
 
         </span>
